@@ -11,54 +11,59 @@ namespace SummarizeTempsLab
 
             Console.WriteLine("Enter File Name");
             string fileName = Console.ReadLine();
-            
-
-            if(File.Exists(fileName))
-            {
-
-                Console.WriteLine("Input a Temperature Threshold");
-                string input = Console.ReadLine();
-                int threshold = int.Parse(input);
-
-                int tempValue;
-                int tempSum = 0;
-                int aboveCount = 0;
-                int belowCount = 0;
-                int totalCount = 0;
-
-                using (StreamReader sr = File.OpenText(fileName))
-                {
-                    string line = sr.ReadLine();
 
 
+            if (File.Exists(fileName))
+            { 
+                string contInput = "y";
+
+                while (contInput == "y")
+                {   
+                    Console.WriteLine("Input a Temperature Threshold");
+                    string input = Console.ReadLine();
+                    int threshold = int.Parse(input);
 
 
-                    while (line != null)
+                    int tempValue;
+                    int tempSum = 0;
+                    int aboveCount = 0;
+                    int belowCount = 0;
+                    int totalCount = 0;
+
+                    using (StreamReader sr = File.OpenText(fileName))
                     {
-                        tempValue = int.Parse(line);
+                        string line = sr.ReadLine();
 
-                        tempSum += tempValue;
-                        totalCount += 1;
-
-                        if (tempValue >= threshold)
+                        while (line != null)
                         {
-                            aboveCount += 1;
-                        }
-                        else
-                        {
-                            belowCount += 1;
-                        }
+                            tempValue = int.Parse(line);
 
-                        line = sr.ReadLine();
+                            tempSum += tempValue;
+                            totalCount += 1;
+
+                            if (tempValue >= threshold)
+                            {
+                                aboveCount += 1;
+                            }
+                            else
+                            {
+                                belowCount += 1;
+                            }
+
+                            line = sr.ReadLine();
+                        }
                     }
+
+                    Console.WriteLine("Number of Temperatures Above = " + aboveCount);
+                    Console.WriteLine("Number of Temperatures Below = " + belowCount);
+
+                    int aveTemp = tempSum / totalCount;
+
+                    Console.WriteLine("Average Temperature is " + aveTemp);
+
+                    Console.WriteLine("Run Temperature Compiler Again? y/n");
+                    contInput = Console.ReadLine();
                 }
-
-                Console.WriteLine("Number of Temperatures Above = " + aboveCount);
-                Console.WriteLine("Number of Temperatures Below = " + belowCount);
-
-                int aveTemp = tempSum / totalCount;
-
-                Console.WriteLine("Average Temperature is " + aveTemp);
             }
             else
             {
